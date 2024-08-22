@@ -8,7 +8,6 @@ require('dotenv').config();
 const db1Connection = require('./ConnectDB/Mysql')
 const app = express();
 const port = process.env.PORT || 3000;
-// Middleware
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
