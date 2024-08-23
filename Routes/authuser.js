@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Employee,Register,Login,Update,Delete,} = require('../Controllers/employee');
-router.get('/Employee', Employee);
+const {Register,Login,Update,Delete,} = require('../Controllers/employee');
 router.post('/Register', Register);
 router.post('/Login', Login);
 router.patch('/Update/:Employee_id', Update);

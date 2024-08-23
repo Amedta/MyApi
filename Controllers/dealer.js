@@ -1,4 +1,5 @@
 const db1Connection = require('../ConnectDB/Mysql');
+
 exports.DisplaySomething = async (req, res) => {
     const query = `SELECT 
     Users.Users_id, 

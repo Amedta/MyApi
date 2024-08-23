@@ -8,3 +8,5 @@ db1Connection.connect((err) => {
     console.log('MySQL successfully connected to the database!!!');
 });
 module.exports = db1Connection;
+
+

@@ -1,14 +1,5 @@
 const db1Connection = require('../ConnectDB/Mysql');  
 const bcrypt = require('bcryptjs');
-exports.Employee = async (req, res) => {
-    try {
-        const [rows] = await db1Connection.query('SELECT * FROM Employee');
-        res.json(rows); 
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
 exports.Register = async (req, res) => {
     const {Emp_Name, Emp_Surname, Emp_add,Username, Emp_tel ,Password } = req.body;
     try {
