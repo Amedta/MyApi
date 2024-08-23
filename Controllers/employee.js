@@ -1,5 +1,25 @@
 const db1Connection = require('../ConnectDB/Mysql');  
 const bcrypt = require('bcryptjs');
+exports.DisplayWhoLogin = async (req, res) => {
+    const query = `SELECT * FROM login`;
+    db1Connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error while fetching user from the database:', err);
+            return res.status(500).json({ error: 'Server error' });
+        }
+        if (results.length > 0) {
+            // Format the login_time to display only the date
+            results = results.map(result => {
+                result.login_time = new Date(result.login_time).toISOString().split('T')[0];
+                return result;
+            });
+            return res.status(200).json(results);
+        } else {
+            return res.status(404).json({ message: 'No user found' });
+        }
+    });
+};
+
 exports.Register = async (req, res) => {
     const {Emp_Name, Emp_Surname, Emp_add,Username, Emp_tel ,Password } = req.body;
     try {
