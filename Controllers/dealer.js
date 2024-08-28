@@ -1,47 +1,62 @@
 const db1Connection = require('../ConnectDB/Mysql');
 
 exports.DisplaySomething = async (req, res) => {
-    const query = `SELECT 
-    Users.Users_id, 
-    Users.FirstName, 
-    Users.SurName, 
-    level.level_name FROM Users JOIN level ON Users.level_id = level.level_id;
-`;
-    db1Connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error while fetching user from the database:', err);
-            return res.status(500).json({ error: 'Server error' });
-        }
-        if (results.length > 0) {
-            return res.status(200).json(results);
-        } else {
-            return res.status(404).json({ message: 'No user found' });
-        }
-    }); 
+    try {
+        const query = `SELECT 
+            Users.Users_id, 
+            Users.FirstName, 
+            Users.SurName, 
+            level.level_name 
+            FROM Users 
+            JOIN level ON Users.level_id = level.level_id;`;
+
+        db1Connection.query(query, (err, results) => {
+            if (err) {
+                console.error('Error while fetching users from the database:', err);
+                return res.status(500).json({ error: 'Server error' });
+            }
+            if (results.length > 0) {
+                return res.status(200).json(results);
+            } else {
+                return res.status(404).json({ message: 'No user found' });
+            }
+        });
+    } catch (err) {
+        console.error('Server error:', err);
+        return res.status(500).json({ error: 'Server error' });
+    }
 };
-//
+
 exports.DisplayUser = async (req, res) => {
-    const query = `SELECT 
-    Users.Users_id, 
-    Users.FirstName, 
-    Users.SurName,  
-    Users.Address, 
-    DATE_FORMAT(Users.Birthday, '%Y-%m-%d') AS Birthday, 
-    Users.Tel, 
-    level.level_name FROM Users JOIN level ON Users.level_id = level.level_id;
-`;
-    db1Connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error while fetching user from the database:', err);
-            return res.status(500).json({ error: 'Server error' });
-        }
-        if (results.length > 0) {
-            return res.status(200).json(results);
-        } else {
-            return res.status(404).json({ message: 'No user found' });
-        }
-    }); 
+    try {
+        const query = `SELECT 
+            Users.Users_id, 
+            Users.FirstName, 
+            Users.SurName,  
+            Users.Address, 
+            DATE_FORMAT(Users.Birthday, '%Y-%m-%d') AS Birthday, 
+            Users.Tel, 
+            level.level_name 
+            FROM Users 
+            JOIN level ON Users.level_id = level.level_id;`;
+
+        db1Connection.query(query, (err, results) => {
+            if (err) {
+                console.error('Error while fetching users from the database:', err);
+                return res.status(500).json({ error: 'Server error' });
+            }
+            if (results.length > 0) {
+                return res.status(200).json(results);
+            } else {
+                return res.status(404).json({ message: 'No user found' });
+            }
+        });
+    } catch (err) {
+        console.error('Server error:', err);
+        return res.status(500).json({ error: 'Server error' });
+    }
 };
+
 exports.InsertUser = async (req, res) => {
     const { FirstName, SurName, Address, Birthday, Tel, level_id } = req.body;
 
@@ -59,11 +74,11 @@ exports.InsertUser = async (req, res) => {
             return res.status(201).json({ message: 'New user successfully created!' });
         });
     } catch (err) {
-        console.error('Error:', err);
+        console.error('Server error:', err);
         return res.status(500).json({ error: 'Server error' });
     }
 };
-// Update dealer
+
 exports.UpdateUser = async (req, res) => {
     const { Users_id } = req.params;
     const { FirstName, SurName, Address, Birthday, Tel, level_id } = req.body;
@@ -93,24 +108,29 @@ exports.UpdateUser = async (req, res) => {
             }
         });
     } catch (err) {
-        console.error('Error:', err);
+        console.error('Server error:', err);
         return res.status(500).json({ error: 'Server error' });
     }
 };
 
-// delete dealer 
 exports.DeleteUser = async (req, res) => {
     const { Users_id } = req.params;
-    db1Connection.query('DELETE FROM Users WHERE Users_id = ?', [Users_id], (err, results) => {
-        if (err) {
-            console.error('Error while deleting the user from the database:', err);
-            return res.status(500).json({ error: 'Failed to delete user' });
-        }
+    
+    try {
+        db1Connection.query('DELETE FROM Users WHERE Users_id = ?', [Users_id], (err, results) => {
+            if (err) {
+                console.error('Error while deleting the user from the database:', err);
+                return res.status(500).json({ error: 'Failed to delete user' });
+            }
 
-        if (results.affectedRows > 0) {
-            return res.status(200).json({ message: 'user successfully deleted!' });
-        } else {
-            return res.status(404).json({ message: 'user not found' });
-        }
-    }); 
-}
+            if (results.affectedRows > 0) {
+                return res.status(200).json({ message: 'User successfully deleted!' });
+            } else {
+                return res.status(404).json({ message: 'User not found' });
+            }
+        });
+    } catch (err) {
+        console.error('Server error:', err);
+        return res.status(500).json({ error: 'Server error' });
+    }
+};
