@@ -27,7 +27,7 @@ class AuthCheckBalanceController {
                     code: data?.code
                 });
             } else {
-                return res.status(400).json({
+                return res.json({
                     success: false,
                     code: data?.code
                 });
