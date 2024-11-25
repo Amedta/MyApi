@@ -5,9 +5,8 @@ const bodyParser = require('body-parser');
 const { readdirSync } = require('fs');
 require('dotenv').config();
 // Database connections
-const db1Connection = require('./ConnectDB/Mysql')
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
